@@ -1,4 +1,5 @@
 
+
 //問題文、選択肢、補足、答え　をセット
 const quiz = [
 	{
@@ -42,6 +43,9 @@ const quiz = [
 const quizLength = quiz.length;
 let quizIndex = 0;
 let score = 0;
+let yourAnswerIndex = 0;
+let yourAnswer = [];
+let yourScore = [];
 
 
 //問題、選択肢、補足、答え　をhtmlに反映させる
@@ -76,24 +80,40 @@ setUpQuiz(quizIndex);//最初の問題をセット
 const clickNo = (e)=>{
 	if(quiz[quizIndex].correct === e.target.textContent){
 	 window.alert('◯ 正解');
+	 yourScore[quizIndex] = '結果は正解です！すごい！'//正誤を記憶
 	 score++;
 	}else{
 	 window.alert('× 不正解');
+ 	 yourScore[quizIndex] = '結果は不正解です。頑張れ！'//正誤を記憶
 	}
 
-	quizIndex++;
+	yourAnswer[quizIndex] = e.target.textContent;//回答した答えを配列に記憶する
+	quizIndex++;//次の問題へ
 
 	if(quizIndex < quizLength){//まだ問題が残っていれば
 	setUpQuiz(quizIndex);//次の問題をセット
 	}else{//最終問題ならば
 	window.alert('全ての問題がおわりました。（スコア集計中）');
 		if(score >= quizLength){//満点ならば
-		window.alert('あなたのスコアは' + score + '／' +quizLength + 'で満点です！');
+		window.alert('あなたのスコアは\n' + score + '／' +quizLength + '\nで満点です！');
 		}else{//満点じゃなければ
-		window.alert('あなたのスコアは' + score + '／' +quizLength + 'です。');
+		window.alert('あなたのスコアは\n' + score + '／' +quizLength + '\nです。');
 		}
+	//答え合わせタイム
+	while(yourAnswerIndex < quizLength) //問題数文答え合わせを繰り返す条件式
+	{
+	window.alert('【答え合わせ】\n' + quiz[yourAnswerIndex].question + 
+	'\nという問題に対して、あなたの回答は\n「' + yourAnswer[yourAnswerIndex] + '」でした。\n'
+	 + '正解は「' + quiz[yourAnswerIndex].correct + '」でした。\n'
+	  + yourScore[yourAnswerIndex]);
+	yourAnswerIndex++;
+	}	
 	}
 };
+
+
+
+
 
 
 
